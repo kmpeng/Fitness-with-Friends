@@ -6,7 +6,7 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer theme={navTheme}>
+    <NavigationContainer>
       <Tab.Navigator>
       </Tab.Navigator>
     </NavigationContainer>
