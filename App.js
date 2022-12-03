@@ -1,44 +1,81 @@
-import { Themes, } from "./assets/Themes";
+import { useState, useEffect } from 'react';
+import { View, Text, StyleSheet } from "react-native";
+import supabase from "./supabase.js";
+
+import { Themes } from "./assets/Themes";
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, Text, StyleSheet} from "react-native";
+import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 
 import FriendsScreen from "./app/screens/FriendsScreen";
+import LoginScreen from "./app/screens/LoginScreen";
+import SignupScreen from './app/screens/SignupScreen.js';
 import CalendarScreen from "./app/screens/CalendarScreen"; 
 import WorkoutScreen from "./app/screens/WorkoutScreen";
 import ProfileScreen from "./app/screens/ProfileScreen";
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
 export default function App() {
+  const [authSession, setAuthSession] = useState(false);
+
+  useEffect(() => {
+    const fetchUserSession = async () => {
+      // get session
+      const { data, error } = await supabase.auth.getSession();
+
+      if (error) {
+        console.log("error getting Supabase session");
+      } else if (data) {
+        // setAuthSession(data.session);
+      }
+    }
+
+    fetchUserSession();
+
+    // listen to onAuthStateChange and update authSession
+    supabase.auth.onAuthStateChange((event, session) => {
+      console.log(event, session);
+      setAuthSession(session);
+    })
+  }, []);
+
   return (
     <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          headerShown: false,
-          labelStyle: { fontSize: 30 },
-          tabBarIcon: ({ focused }) => {
-            let iconName;
+      {authSession ?
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+            headerShown: false,
+            labelStyle: { fontSize: 30 },
+            tabBarIcon: ({ focused }) => {
+              let iconName;
 
-            if (route.name === 'Friends') {
-              iconName = focused ? 'people' : 'people-outline';
-            } else if (route.name === 'Calendar') {
-              iconName = focused ? 'calendar' : 'calendar-outline';
-            } else if (route.name === 'Workout') {
-              iconName = focused ? 'barbell' : 'barbell-outline';
-            } else if (route.name === 'Profile') {
-              iconName = focused  ? 'person'  : 'person-outline';
+              if (route.name === 'Friends') {
+                iconName = focused ? 'people' : 'people-outline';
+              } else if (route.name === 'Calendar') {
+                iconName = focused ? 'calendar' : 'calendar-outline';
+              } else if (route.name === 'Workout') {
+                iconName = focused ? 'barbell' : 'barbell-outline';
+              } else if (route.name === 'Profile') {
+                iconName = focused  ? 'person'  : 'person-outline';
+              }
+              // change color!!! 
+              return <Ionicons name={iconName} size={24} color="black" />;
             }
-            // change color!!! 
-            return <Ionicons name={iconName} size={24} color="black" />;
-          }
-        })}>
-        <Tab.Screen name="Friends" component={FriendsScreen} />
-        <Tab.Screen name="Calendar" component={CalendarScreen} />
-        <Tab.Screen name="Workout" component={WorkoutScreen} />
-        <Tab.Screen name="Profile" component={ProfileScreen} />
-      </Tab.Navigator>
+          })}>
+          <Tab.Screen name="Friends" component={FriendsScreen} />
+          <Tab.Screen name="Calendar" component={CalendarScreen} />
+          <Tab.Screen name="Workout" component={WorkoutScreen} />
+          <Tab.Screen name="Profile" component={ProfileScreen} />
+        </Tab.Navigator>
+        :
+        <Stack.Navigator>
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Signup" component={SignupScreen} />
+        </Stack.Navigator>
+      }
     </NavigationContainer>
   );
 }
