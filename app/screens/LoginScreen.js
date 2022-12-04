@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import supabase from "../../supabase";
 import { Themes } from "../../assets/Themes";
-import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
+import { View, ScrollView, Text, TextInput, Pressable, StyleSheet } from "react-native";
 
 export default function LoginScreen({ navigation}) {
   const [email, setEmail] = useState(null);
@@ -9,25 +9,22 @@ export default function LoginScreen({ navigation}) {
   const [error, setError] = useState(false);
 
   const handleSignIn = async () => {
+    // sign in with Supabase auth
     const { user, session, error } = await supabase.auth.signInWithPassword({
       email: email,
       password: password,
     });
   
     if (error) {
-      console.log("signin error:", error.message);
       setError(error.message);
-    } else if (user && session) {
-      console.log("logged in");
-      setError(false);
-    }
+    };
   }
   
   return (
     <View style={styles.screenContainer}>
       <Text style={[styles.heading, styles.textShadow]}>*app title*</Text>
 
-      <View style={styles.loginContainer}>
+      <ScrollView contentContainerStyle={styles.loginContainer}>
         <Text style={[styles.title, styles.textShadow]}>welcome back.</Text>
 
         <View style={styles.loginForm}>
@@ -64,7 +61,7 @@ export default function LoginScreen({ navigation}) {
         </Text>
 
         {error && <Text style={styles.errorText}>{error}</Text>}
-      </View>
+      </ScrollView>
     </View>
   );
 }

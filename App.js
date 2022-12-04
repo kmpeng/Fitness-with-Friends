@@ -22,18 +22,18 @@ export default function App() {
   const [authSession, setAuthSession] = useState(false);
 
   useEffect(() => {
-    const fetchUserSession = async () => {
+    const fetchSession = async () => {
       // get session
       const { data, error } = await supabase.auth.getSession();
 
       if (error) {
         console.log("error getting Supabase session");
       } else if (data) {
-        // setAuthSession(data.session);
+        setAuthSession(data.session);
       }
     }
 
-    fetchUserSession();
+    fetchSession();
 
     // listen to onAuthStateChange and update authSession
     supabase.auth.onAuthStateChange((event, session) => {

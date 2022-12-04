@@ -1,34 +1,67 @@
 import { useState } from 'react';
 import supabase from "../../supabase";
 import { Themes } from "../../assets/Themes";
-import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
+import { View, ScrollView, Text, TextInput, Pressable, StyleSheet } from "react-native";
 
 export default function SignupScreen({ navigation}) {
   const [email, setEmail] = useState(null);
+  const [username, setUsername] = useState(null);
+  const [fullName, setFullName] = useState(null);
   const [password, setPassword] = useState(null);
   const [error, setError] = useState(false);
 
   const handleSignUp = async () => {
-    console.log("password:", password);
+    // check all fields have been filled out
+    if (!email || !username || !fullName || !password) {
+      setError("Please fill in all fields");
+      return;
+    }
+
+    // sign up with Supabase auth
     const { data, error } = await supabase.auth.signUp({
       email: email,
       password: password
-    })
+    });
   
     if (error) {
-      console.log("signup error:", error.message);
       setError(error.message);
+      return;
     } else if (data) {
-      console.log("signed up");
       setError(false);
+      upsertUserProfile(data.user);
     }
+  }
+
+  const upsertUserProfile = async (user) => {
+    if (!user) {
+      setError("Unable to get user");
+      return;
+    };
+
+    // create updates object
+    const updates = {
+      id: user.id,
+      username: username,
+      full_name: fullName,
+      updated_at: new Date(),
+      year_joined: new Date().getFullYear(),
+    };
+
+    // upsert updates to profiles table
+    const { error } = await supabase
+      .from('profiles')
+      .upsert(updates);
+
+    if (error) {
+      setError(error.message);
+    };
   }
   
   return (
     <View style={styles.screenContainer}>
       <Text style={[styles.heading, styles.textShadow]}>*app title*</Text>
 
-      <View style={styles.loginContainer}>
+      <ScrollView contentContainerStyle={styles.loginContainer}>
         <Text style={[styles.title, styles.textShadow]}>join us!</Text>
 
         <View style={styles.loginForm}>
@@ -38,6 +71,26 @@ export default function SignupScreen({ navigation}) {
               style={styles.input}
               onChangeText={setEmail}
               value={email}
+              placeholder=""
+            />
+          </View>
+
+          <View style={styles.inputContainer}>
+            <Text style={[styles.inputLabel, styles.textShadow]}>username:</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={setUsername}
+              value={username}
+              placeholder=""
+            />
+          </View>
+
+          <View style={styles.inputContainer}>
+            <Text style={[styles.inputLabel, styles.textShadow]}>full name:</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={setFullName}
+              value={fullName}
               placeholder=""
             />
           </View>
@@ -65,7 +118,7 @@ export default function SignupScreen({ navigation}) {
         </Text>
 
         {error && <Text style={styles.errorText}>{error}</Text>}
-      </View>
+      </ScrollView>
     </View>
   );
 }
