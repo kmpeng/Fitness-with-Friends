@@ -8,12 +8,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 
-import FriendsScreen from "./app/screens/FriendsScreen";
-import LoginScreen from "./app/screens/LoginScreen";
-import SignupScreen from './app/screens/SignupScreen.js';
-import CalendarScreen from "./app/screens/CalendarScreen"; 
-import WorkoutScreen from "./app/screens/WorkoutScreen";
-import ProfileScreen from "./app/screens/ProfileScreen";
+import { CalendarScreen, FriendsScreen, LoginScreen, ProfileScreen, SignupScreen, WorkoutScreen } from "./app/screens";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
