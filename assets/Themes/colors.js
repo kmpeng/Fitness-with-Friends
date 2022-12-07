@@ -9,4 +9,5 @@ export const colors = {
   shadow: 'rgba(0, 0, 0, 0.25)',
   darkerPurple: '#5257a1',
   darkerSage: '#809c87',
+  darkerGray: '#767676',
 };

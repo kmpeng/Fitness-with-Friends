@@ -3,6 +3,8 @@ import { Themes, } from "../../assets/Themes";
 import { NavigationContainer } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { View, Text, StyleSheet, Image} from "react-native";
+import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import { Ionicons } from '@expo/vector-icons';
 
 
 
@@ -67,10 +69,14 @@ export default function WorkoutScreen() {
           <Text style={styles.workoutText}>
             Custom
           </Text>
-          <Image 
-              style={styles.plusImage}  
-              source={require('../../assets/Images/plus.jpg')}
-            />
+            <Pressable style={ ({pressed}) => [
+            {
+              backgroundColor: pressed ? Themes.colors.darkerGray: Themes.colors.gray,
+            },
+            styles.addButton,
+          ] }>
+          <Ionicons name="add" size={55} color={Themes.colors.white} />
+        </Pressable>
         </View>
       </View>
     </View>
@@ -123,11 +129,12 @@ const styles = StyleSheet.create({
       marginLeft: '5%',
       marginVertical: '5%'
     },
-    plusImage: {
-      width: '30%',
-      height: '30%',
+    addButton: {
+      borderRadius: 9999,
+      width: '35%',
+      height: '50%',
+      marginTop: '3%',
       marginHorizontal: '35%',
-      marginVertical: '6%'
     }
   });
   
