@@ -19,8 +19,8 @@ export default function WorkoutScreen() {
   return (
     <View style={styles.screenContainer}>
       <View style={styles.titleBox}>
-          <Text style={styles.title}>
-            Workout Plan
+          <Text style={[styles.title, styles.textShadow]}>
+            workout plan
           </Text>
       </View>
       <View style={styles.horizontal}>
@@ -135,6 +135,11 @@ const styles = StyleSheet.create({
       height: '50%',
       marginTop: '3%',
       marginHorizontal: '35%',
-    }
+    },
+    textShadow: {
+      textShadowColor: Themes.colors.shadow,
+      textShadowOffset: {width: -4, height: 4},
+      textShadowRadius: 12,
+    },
   });
   
