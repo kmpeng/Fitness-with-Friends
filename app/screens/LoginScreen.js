@@ -22,7 +22,7 @@ export default function LoginScreen({ navigation}) {
   
   return (
     <View style={styles.screenContainer}>
-      <Text style={[styles.heading, styles.textShadow]}>*app title*</Text>
+      <Text style={[styles.heading, styles.textShadow]}>fitness with friends!</Text>
 
       <ScrollView contentContainerStyle={styles.loginContainer}>
         <Text style={[styles.title, styles.textShadow]}>welcome back.</Text>
