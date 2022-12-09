@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     screenText: {
       alignItems: 'flex-start',
       marginTop: 80,
-     marginLeft: 22,
+     marginLeft: 22, // should be edited 
       textAlign: 'left',
         color: Themes.colors.black,
         fontFamily: 'InterBold',

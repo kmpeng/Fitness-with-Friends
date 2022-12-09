@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
       backgroundColor: Themes.colors.sage,
     },
     screenText: {
-      fontSize: 32,
+      fontSize: 26,
     },
     titleBox: {
       width: '90%',
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
       marginTop: '10%',
     },
     title: {
-      fontSize: 32, 
+      fontSize: 26, 
       color: Themes.colors.black,
       fontFamily: 'InterBold'
     },
