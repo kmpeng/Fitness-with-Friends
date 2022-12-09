@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'space-evenly',
       marginTop: 50,
-      marginLeft: -120,
+      marginLeft: -145,
     },
     people2: {
       flexDirection: 'column',

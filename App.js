@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from "react-native";
 import supabase from "./supabase.js";
+import AppLoading from 'expo-app-loading';
 
 import { Themes } from "./assets/Themes";
+import { processFontFamily, useFonts } from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -15,6 +17,12 @@ const Stack = createStackNavigator();
 
 export default function App() {
   const [authSession, setAuthSession] = useState(false);
+
+
+  let [fontsLoaded] = useFonts({
+    Inter:  require('./assets/Fonts/Inter-Regular.otf'),
+    InterBold: require('./assets/Fonts/Inter-Bold.otf')
+  })  
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -36,6 +44,9 @@ export default function App() {
       setAuthSession(session);
     })
   }, []);
+
+  if (!fontsLoaded) return <AppLoading />;
+
 
   return (
     <NavigationContainer>

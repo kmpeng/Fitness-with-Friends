@@ -18,11 +18,11 @@ export default function CalendarScreen() {
                    moment().subtract(2, 'days').format('MM/DD'),
                    moment().subtract(1, 'days').format('MM/DD'),
                    moment().format('MM/DD')]
-  let [fontsLoaded] = useFonts({
-    Inter:  require('../../assets/Fonts/Inter-Regular.otf'),
-    InterBold: require('../../assets/Fonts/Inter-Bold.otf')
-  });
-  if (!fontsLoaded) return <AppLoading />;
+  // let [fontsLoaded] = useFonts({
+  //   Inter:  require('../../assets/Fonts/Inter-Regular.otf'),
+  //   InterBold: require('../../assets/Fonts/Inter-Bold.otf')
+  // });
+  // if (!fontsLoaded) return <AppLoading />;
   const data = {
     labels: tenDays,
     datasets: [
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
       marginRight: 20,
       flexDirection: 'row',
       justifyContent: 'space-between',
-      marginBottom: 20
+      marginBottom: 20,
     },
     addButton: {
       borderRadius: 9999,
